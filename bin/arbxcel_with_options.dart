@@ -24,7 +24,7 @@ void main(List<String> args) {
   }
 
   final String filename = flags.rest.first;
-  final String sheetname = flags.rest[1];
+  final String sheetname = flags.rest.length > 1 ? flags.rest[1] : 'Sheet1';
 
   if (flags['new']) {
     stdout.writeln('Create new Excel file for translation: $filename');
