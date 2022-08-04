@@ -1,3 +1,7 @@
+## 0.0.8
+
+- Handle argument access overflow error
+
 ## 0.0.7
 
 - Rename package to `arbxcel_with_options`
