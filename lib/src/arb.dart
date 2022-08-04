@@ -16,11 +16,13 @@ void writeARB(String filename, Translation data) {
   for (int i = 0; i < data.languages.length; i++) {
     final String lang = data.languages[i];
     final bool isDefault = i == 0;
+    bool isFirstInTranslation = true;
     final File f = File('${withoutExtension(filename)}_$lang.arb');
 
     List<String> buf = [];
     for (final item in data.items) {
-      final String? data = item.toJSON(lang, isDefault);
+      final String? data = item.toJSON(lang, isDefault, isFirstInTranslation);
+      isFirstInTranslation = false;
       if (data != null) {
         buf.add(data);
       }
@@ -56,8 +58,11 @@ class ARBItem {
   final String? description;
   final Map<String, String> translations;
 
+  String toCamelCase(String str) =>
+     "${str[0].toLowerCase()}${str.substring(1)}";
+
   /// Serialize in JSON.
-  String? toJSON(String lang, [bool isDefault = false]) {
+  String? toJSON(String lang, [bool isDefault = false, bool isFirstInTranslation = false]) {
     final String? value = translations[lang];
     if (value == null || value.isEmpty) return null;
 
@@ -67,9 +72,11 @@ class ARBItem {
 
     final List<String> buf = <String>[];
 
+    if (isFirstInTranslation) buf.add('  "@@locale": "$lang",');
+
     if (hasMetadata) {
-      buf.add('  "$name": "$value",');
-      buf.add('  "@$name": {');
+      buf.add('  "${toCamelCase(name)}": "$value",');
+      buf.add('  "@${toCamelCase(name)}": {');
 
       if (args.isEmpty) {
         if (description != null) {
@@ -83,7 +90,7 @@ class ARBItem {
         buf.add('    "placeholders": {');
         final List<String> group = [];
         for (final arg in args) {
-          group.add('      "$arg": {"type": "String"}');
+          group.add('      "$arg": {"type": "Object"}');
         }
         buf.add(group.join(',\n'));
         buf.add('    }');
@@ -91,7 +98,7 @@ class ARBItem {
 
       buf.add('  }');
     } else {
-      buf.add('  "$name": "$value"');
+      buf.add('  "${toCamelCase(name)}": "$value"');
     }
 
     return buf.join('\n');

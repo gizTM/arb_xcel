@@ -1,8 +1,8 @@
-name: arbxcel
+name: arbxcel_with_options
 description: Generates ARB files from an Excel file or create an Excel file from ARB files.
-version: 0.0.6
-repository: https://github.com/iandis/arbxcel
-issue_tracker: https://github.com/iandis/arbxcel/issues
+version: 0.0.7
+repository: https://github.com/gizTM/arb_excel
+issue_tracker: https://github.com/gizTM/arb_excel/issues
 
 environment:
   sdk: '>=2.15.0 <3.0.0'
@@ -17,4 +17,4 @@ dev_dependencies:
   test: ^1.16.0
 
 executables:
-  arbxcel:
+  arbxcel_with_options:

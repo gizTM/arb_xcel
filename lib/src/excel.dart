@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:arbxcel/src/assets.dart';
+import 'package:arbxcel_with_options/src/assets.dart';
 import 'package:excel/excel.dart';
 
 import 'arb.dart';
@@ -27,7 +27,7 @@ void newTemplate(String filename) {
 /// from the template.
 Translation parseExcel({
   required String filename,
-  String sheetname = 'Text',
+  String sheetname = 'Sheet1', // default for google sheet export file
   int headerRow = _kRowHeader,
   int valueRow = _kRowValue,
 }) {
@@ -35,6 +35,7 @@ Translation parseExcel({
   final Excel excel = Excel.decodeBytes(buf);
   final Sheet? sheet = excel.sheets[sheetname];
   if (sheet == null) {
+    stdout.writeln('Exit: Excel.decodeBytes(File.readAsBytesSync()).sheets[$sheetname] is null...');
     return const Translation();
   }
 
@@ -42,7 +43,7 @@ Translation parseExcel({
   final List<Data?> columns = sheet.rows[headerRow];
   for (int i = valueRow; i < sheet.rows.length; i++) {
     final List<Data?> row = sheet.rows[i];
-    final String? name = row[_kColName]?.value;
+    final String? name = row[_kColName]?.value?.trim();
     if (name?.trim().isNotEmpty != true) continue;
 
     final String? description = row[_kColDescription]?.value;
@@ -54,7 +55,8 @@ Translation parseExcel({
 
     for (int i = _kColValue; i < sheet.maxCols; i++) {
       final lang = columns[i]?.value ?? i.toString();
-      item.translations[lang] = row[i]?.value ?? '';
+      String valueString = row[i]?.value ?? '';
+      item.translations[lang] = valueString.replaceAll('"', '\\"');
     }
 
     items.add(item);

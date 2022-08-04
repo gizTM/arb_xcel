@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:path/path.dart';
 
-import 'package:arbxcel/arbxcel.dart';
+import 'package:arbxcel_with_options/arbxcel.dart';
 
 const _kVersion = '0.0.2';
 
@@ -12,7 +12,7 @@ void main(List<String> args) {
   parse.addFlag('new',
       abbr: 'n', defaultsTo: false, help: 'New translation sheet');
   parse.addFlag('arb',
-      abbr: 'a', defaultsTo: false, help: 'Export to ARB files');
+      abbr: 'a', defaultsTo: false, help: 'Export to ARB files - specify original .xlsx and sheet name (default to Sheet1)');
   parse.addFlag('excel',
       abbr: 'e', defaultsTo: false, help: 'Import ARB files to sheet');
   final ArgResults flags = parse.parse(args);
@@ -24,6 +24,7 @@ void main(List<String> args) {
   }
 
   final String filename = flags.rest.first;
+  final String sheetname = flags.rest[1];
 
   if (flags['new']) {
     stdout.writeln('Create new Excel file for translation: $filename');
@@ -33,7 +34,7 @@ void main(List<String> args) {
 
   if (flags['arb']) {
     stdout.writeln('Generate ARB from: $filename');
-    final data = parseExcel(filename: filename);
+    final data = parseExcel(filename: filename, sheetname: sheetname);
     writeARB('${withoutExtension(filename)}.arb', data);
     exit(0);
   }
@@ -50,7 +51,7 @@ void usage(ArgParser parse) {
   stdout.writeln('arb_sheet v$_kVersion\n');
   stdout.writeln('USAGE:');
   stdout.writeln(
-    '  arb_sheet [OPTIONS] path/to/file/name\n',
+    '  arb_sheet [OPTIONS] path/to/file/name [other args]\n',
   );
   stdout.writeln('OPTIONS');
   stdout.writeln(parse.usage);
