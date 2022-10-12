@@ -1,3 +1,7 @@
+## 0.0.9
+
+- Handle language column name for english and thai wording variation
+
 ## 0.0.8
 
 - Handle argument access overflow error

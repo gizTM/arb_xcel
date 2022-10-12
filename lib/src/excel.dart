@@ -54,7 +54,15 @@ Translation parseExcel({
     );
 
     for (int i = _kColValue; i < sheet.maxCols; i++) {
-      final lang = columns[i]?.value ?? i.toString();
+      final langColName = columns[i]?.value ?? i.toString();
+      String lang = '';
+      switch (langColName.toLowerCase()) { 
+        case 'en':
+        case 'english': lang = 'en'; break;
+        case 'th':
+        case 'thai': lang = 'th'; break;
+        default: lang = langColName; break;
+      }
       String valueString = row[i]?.value ?? '';
       item.translations[lang] = valueString.replaceAll('"', '\\"');
     }
