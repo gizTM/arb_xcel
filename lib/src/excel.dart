@@ -31,6 +31,18 @@ Translation parseExcel({
   int headerRow = _kRowHeader,
   int valueRow = _kRowValue,
 }) {
+  String normalizeLangColName(String langColName) {
+    switch (langColName.toLowerCase()) { 
+      case 'en':
+      case 'english': 
+        return 'en';
+      case 'th':
+      case 'thai': 
+        return 'th';
+      default: 
+        return langColName;
+    }
+  }
   final Uint8List buf = File(filename).readAsBytesSync();
   final Excel excel = Excel.decodeBytes(buf);
   final Sheet? sheet = excel.sheets[sheetname];
@@ -55,16 +67,9 @@ Translation parseExcel({
 
     for (int i = _kColValue; i < sheet.maxCols; i++) {
       final langColName = columns[i]?.value ?? i.toString();
-      String lang = '';
-      switch (langColName.toLowerCase()) { 
-        case 'en':
-        case 'english': lang = 'en'; break;
-        case 'th':
-        case 'thai': lang = 'th'; break;
-        default: lang = langColName; break;
-      }
+      String lang = normalizeLangColName(langColName);
       String valueString = row[i]?.value ?? '';
-      item.translations[lang] = valueString.replaceAll('"', '\\"');
+      item.translations[lang] = valueString.replaceAll('"', '\\"').replaceAll('\n', '\\n');
     }
 
     items.add(item);
@@ -72,7 +77,7 @@ Translation parseExcel({
 
   final List<String> languages = columns
       .where((e) => e != null && e.colIndex >= _kColValue)
-      .map<String>((e) => e?.value)
+      .map<String>((e) => normalizeLangColName(e?.value))
       .toList();
   return Translation(languages: languages, items: items);
 }

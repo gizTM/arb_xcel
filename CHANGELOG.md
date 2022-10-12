@@ -1,3 +1,8 @@
+## 0.0.10
+
+- Fix typo of version 0.0.9
+- Replace \n with \\n (arb will be in correct json format)
+
 ## 0.0.9
 
 - Handle language column name for english and thai wording variation
