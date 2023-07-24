@@ -28,7 +28,8 @@ void main(List<String> args) {
 
   if (flags['new']) {
     stdout.writeln('Create new Excel file for translation: $filename');
-    newTemplate(filename);
+    // newTemplate(filename);
+    newTemplateWithType(filename);
     exit(0);
   }
 

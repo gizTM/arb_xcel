@@ -2,6 +2,10 @@
 
 For reading, creating and updating ARB files from XLSX files.
 
+> **Has custom change for specific excel file structure**
+> When generating new excel template, a file with columns' title should be `name`, `type`, `description`, `en`, `vi`.
+> The up to the 4th column is the translated language text column; it's up to user to edit the generated excel file.
+
 ## Install
 
 ```bash

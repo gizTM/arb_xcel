@@ -1,3 +1,7 @@
+## 0.0.11
+
+- Add new column (2nd column) to new excel template: 'type' to indicate that the word is what kind of UI; e.g. Label, Button, Textfield, etc
+
 ## 0.0.10
 
 - Fix typo of version 0.0.9

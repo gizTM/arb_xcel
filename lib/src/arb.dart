@@ -50,11 +50,13 @@ class ARBItem {
 
   const ARBItem({
     required this.name,
+    this.type,
     this.description,
     this.translations = const <String, String>{},
   });
 
   final String name;
+  final String? type;
   final String? description;
   final Map<String, String> translations;
 
@@ -68,7 +70,7 @@ class ARBItem {
 
     final List<String> args = getArgs(value);
     final bool hasMetadata =
-        isDefault && (args.isNotEmpty || description != null);
+        isDefault && (args.isNotEmpty || description != null || type != null);
 
     final List<String> buf = <String>[];
 
@@ -79,12 +81,20 @@ class ARBItem {
       buf.add('  "@${toCamelCase(name)}": {');
 
       if (args.isEmpty) {
-        if (description != null) {
+        if (type != null && description != null) {
+          buf.add('    "description": "[$type] $description"');
+        } else if (type == null && description != null) {
           buf.add('    "description": "$description"');
+        } else if (type != null && description == null) {
+          buf.add('    "description": "[$type]"');
         }
       } else {
-        if (description != null) {
+        if (type != null && description != null) {
+          buf.add('    "description": "[$type] $description",');
+        } else if (type == null && description != null) {
           buf.add('    "description": "$description",');
+        } else if (type != null && description == null) {
+          buf.add('    "description": "[$type]",');
         }
 
         buf.add('    "placeholders": {');

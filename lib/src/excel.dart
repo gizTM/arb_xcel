@@ -3,21 +3,32 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:arbxcel_with_options/src/assets.dart';
+import 'package:arbxcel_with_options/src/excel_template_with_type_column.dart';
 import 'package:excel/excel.dart';
 
 import 'arb.dart';
 
 const int _kRowHeader = 0;
 const int _kRowValue = 1;
+
 const int _kColName = 0;
-const int _kColDescription = 1;
-const int _kColValue = 2;
+const int _kColType = 1;
+const int _kColDescription = 2;
+const int _kColValue = 3;
 
 /// Create a new Excel template file.
 ///
-/// Embedded data will be packed via `template.dart`.
+/// Embedded data will be packed via `assets.dart`.
 void newTemplate(String filename) {
   final Uint8List buf = base64Decode(kTemplate);
+  File(filename).writeAsBytesSync(buf);
+}
+
+/// Create a new Excel template file with 'type' column.
+///
+/// Embedded data will be packed via `excel_template_with_type_column.dart`.
+void newTemplateWithType(String filename) {
+  final Uint8List buf = base64Decode(kNewTemplate);
   File(filename).writeAsBytesSync(buf);
 }
 
@@ -58,9 +69,11 @@ Translation parseExcel({
     final String? name = row[_kColName]?.value?.trim();
     if (name?.trim().isNotEmpty != true) continue;
 
+    final String? type = row[_kColType]?.value;
     final String? description = row[_kColDescription]?.value;
     final ARBItem item = ARBItem(
       name: name!,
+      type: type,
       description: description,
       translations: {},
     );
