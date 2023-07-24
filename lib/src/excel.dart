@@ -73,8 +73,9 @@ Translation parseExcel({
     final String? description = row[_kColDescription]?.value?.toString();
     final ARBItem item = ARBItem(
       name: name!,
-      type: type,
-      description: description,
+      type: type?.replaceAll('"', '\\"'),
+      description: description?.replaceAll('"', '\\"')
+        .replaceAll('\n', '\\n'),
       translations: {},
     );
 

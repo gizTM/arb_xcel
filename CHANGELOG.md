@@ -1,3 +1,7 @@
+## 0.0.16
+
+- Auto-correct `\n` conversion malformat in description column
+  
 ## 0.0.15
 
 - Add function to auto-correct variable malformat
