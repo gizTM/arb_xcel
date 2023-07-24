@@ -1,7 +1,10 @@
+## 0.0.12
+
+- Fix bug when text in file is not of primitive type string
+
 ## 0.0.11
 
 - Add new column (2nd column) to new excel template: 'type' to indicate that the word is what kind of UI; e.g. Label, Button, Textfield, etc
-- Fix bug when text in file is not of primitive type string
 
 ## 0.0.10
 
