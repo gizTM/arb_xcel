@@ -66,7 +66,7 @@ Translation parseExcel({
   final List<Data?> columns = sheet.rows[headerRow];
   for (int i = valueRow; i < sheet.rows.length; i++) {
     final List<Data?> row = sheet.rows[i];
-    final String? name = row[_kColName]?.value?.trim();
+    final String? name = row[_kColName]?.value?.toString().trim();
     if (name?.trim().isNotEmpty != true) continue;
 
     final String? type = row[_kColType]?.value;
