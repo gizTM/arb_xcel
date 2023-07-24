@@ -79,9 +79,9 @@ Translation parseExcel({
     );
 
     for (int i = _kColValue; i < sheet.maxCols; i++) {
-      final langColName = columns[i]?.value ?? i.toString();
+      final langColName = columns[i]?.value.toString() ?? i.toString();
       String lang = normalizeLangColName(langColName);
-      String valueString = row[i]?.value ?? '';
+      String valueString = row[i]?.value.toString() ?? '';
       item.translations[lang] = valueString.replaceAll('"', '\\"').replaceAll('\n', '\\n');
     }
 
@@ -90,7 +90,7 @@ Translation parseExcel({
 
   final List<String> languages = columns
       .where((e) => e != null && e.colIndex >= _kColValue)
-      .map<String>((e) => normalizeLangColName(e?.value))
+      .map<String>((e) => normalizeLangColName(e?.value?.toString() ?? ''))
       .toList();
   return Translation(languages: languages, items: items);
 }
