@@ -1,3 +1,7 @@
+## 0.0.15
+
+- Add function to auto-correct variable malformat
+  
 ## 0.0.14
 
 - Fix another bug when text in file is not of primitive type string

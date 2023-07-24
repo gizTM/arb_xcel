@@ -82,7 +82,10 @@ Translation parseExcel({
       final langColName = columns[i]?.value.toString() ?? i.toString();
       String lang = normalizeLangColName(langColName);
       String valueString = row[i]?.value.toString() ?? '';
-      item.translations[lang] = valueString.replaceAll('"', '\\"').replaceAll('\n', '\\n');
+      item.translations[lang] = valueString
+        .replaceAll('"', '\\"')
+        .replaceAll('\n', '\\n')
+        .replaceAll('{variable ', '{variable');
     }
 
     items.add(item);

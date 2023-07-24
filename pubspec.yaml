@@ -1,6 +1,6 @@
 name: arbxcel_with_options
 description: Generates ARB files from an Excel file or create an Excel file from ARB files.
-version: 0.0.14
+version: 0.0.15
 repository: https://github.com/gizTM/arb_excel
 issue_tracker: https://github.com/gizTM/arb_excel/issues
 
