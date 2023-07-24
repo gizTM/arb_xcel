@@ -69,8 +69,8 @@ Translation parseExcel({
     final String? name = row[_kColName]?.value?.toString().trim();
     if (name?.trim().isNotEmpty != true) continue;
 
-    final String? type = row[_kColType]?.value;
-    final String? description = row[_kColDescription]?.value;
+    final String? type = row[_kColType]?.value?.toString();
+    final String? description = row[_kColDescription]?.value?.toString();
     final ARBItem item = ARBItem(
       name: name!,
       type: type,

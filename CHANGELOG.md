@@ -1,3 +1,7 @@
+## 0.0.13
+
+- Fix another bug when text in file is not of primitive type string
+
 ## 0.0.12
 
 - Fix bug when text in file is not of primitive type string
